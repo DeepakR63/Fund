@@ -3,16 +3,26 @@ import { Link } from 'react-router-dom';
 import Home from '../pages/home';
 import Profile from '../pages/profile';
 class HomeBanner extends Component{
-    // constructor(props)
-	// {
-	// 	super(props);
-	// }
+    constructor(props)
+	{
+        super(props);
+        this.doLogout=this.doLogout.bind(this);
+
+    }
+
+    doLogout()
+    {
+        localStorage.setItem('Auth', "");
+    }
+
     render(){
         return(
             <div >
                 <nav class="navbar navbar-inverse" id="nav-banner">
                     <div class="container-fluid">
-                   
+                    <div class="navbar-header">
+                            <h3 id="h3-nav-head"><b>Fundraiser.com</b></h3>
+                        </div>
                     <ul class="nav navbar-nav navbar-right">
                         
                         
@@ -24,7 +34,7 @@ class HomeBanner extends Component{
                                 pathname: '/home/profile', 
                                 state: { profile: this.props.details.email } 
                                 } }>Profile</Link></li>
-                            <li><Link to="/">SignOut</Link></li>
+                            <li><Link to="/" onClick={this.doLogout}>SignOut</Link></li>
                             </ul>
                             </li>
                             

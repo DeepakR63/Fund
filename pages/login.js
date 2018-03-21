@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import HeadBanner from '../component/head';
+import { toast, ToastContainer } from 'react-toastify';
+import { messageBox } from '../component/messagebox';
+import { validEmail, validPassword } from '../component/validation';
+import { postCall } from '../component/api';
 
 
 class Login extends Component
@@ -19,6 +23,72 @@ class Login extends Component
 
         this.usernameChange=this.usernameChange.bind(this);
         this.passwordChange=this.passwordChange.bind(this);
+        this.validateEntries=this.validateEntries.bind(this);
+        
+    }
+
+   validateEntries()
+   {
+       var _IsValid=true;
+
+       if(!validEmail(this.state.email))
+       {
+            messageBox("Invalid Email");
+            _IsValid=false;
+       }
+       if(!validPassword(this.state.password))
+       {
+            messageBox("Invalid Password");
+            _IsValid=false;
+       }
+
+       return _IsValid;
+   }
+
+   setLoginDetails(response)
+   {
+        this.userId=response.data.user_data.id;
+        this.auth=response.headers.auth;
+        localStorage.setItem('UserData', JSON.stringify(this.userId));
+        localStorage.setItem('Auth', JSON.stringify(this.auth));
+        console.log("Login successfull");
+        this.gotoProfile();
+
+   }
+
+   gotoProfile()
+   {
+    this.props.history.push('/home/profile');
+   }
+
+    doLogin(event)
+    {
+        if(this.validateEntries())
+        {
+
+        
+            var _url = "fundraisers/login";
+
+            postCall(_url,this.state)
+            .then((response) =>
+            {
+                console.log(response);  
+                if(response.status == 200)
+                {
+                    this.setLoginDetails(response);    
+                }
+                else
+                {
+                    messageBox("email or password is wrong",false);
+                
+                }
+            })
+            .catch(function (error) 
+            {
+                console.log(error);
+                messageBox("email or password is wrong");
+            });
+        }
     }
 
     usernameChange(e) 
@@ -30,39 +100,15 @@ class Login extends Component
     {
         this.setState({password: e.target.value});
     }
+
     gotoHome()
     {
         this.props.history.push('/home');
     }
+    
     handleClick(event)
     {
-        var _apibaseurl = "http://52.41.54.41:3001/fundraisers/login";
-
-        axios.post(_apibaseurl, this.state)
-        .then((response) =>
-        {
-            console.log(response);  
-            if(response.status == 200)
-            {
-                console.log("Login successfull");
-                this.userdata=response.data.user_data;
-                this.auth=response.headers.auth;
-                localStorage.setItem('UserData', JSON.stringify(this.userdata));
-                localStorage.setItem('Auth', JSON.stringify(this.auth));
-
-                this.props.history.push('/home');
-            }
-            else
-            {
-                console.log("Username does not exists");
-                alert(response.headers.status-reason);
-            }
-        })
-        .catch(function (error) 
-        {
-            console.log(error);
-            alert("yes");
-        });
+       this.doLogin(event);
     }
 
     render()
@@ -99,6 +145,7 @@ class Login extends Component
                          <center>  For new account please <Link to="/signup">SignUp</Link></center>
                         </div>
                     </div>
+                    <ToastContainer/>
                 </div>
                 
             </div>

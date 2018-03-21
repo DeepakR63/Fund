@@ -7,7 +7,9 @@ class HeadBanner extends Component{
             <div >
                 <nav class="navbar navbar-inverse" id="nav-banner">
                     <div class="container-fluid">
-   
+                        <div class="navbar-header">
+                            <h3 id="h3-nav-head"><b>Fundraiser.com</b></h3>
+                        </div>
                     </div>
                 </nav>
             </div>

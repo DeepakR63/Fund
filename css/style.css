@@ -71,8 +71,8 @@
 
 #img-usr
 {
-    width:70%;
-    height:75%;
+    width:95px;
+    height:100px;
     
 }
 #div-profile-img
@@ -92,7 +92,15 @@
     padding:2% 2% 2% 2%;
     
 }
+#h3-nav-head
+{
+    font-family: monospace;
+    ;
+    font-weight: bolder;
+    font-size: 170%;
+    color: white;
 
+}
 .p-label
 {
     font-size:105%;
@@ -194,6 +202,7 @@
     height:34%;
     float: right;
    
+    cursor: pointer;
 
 }
 #div-img-update
@@ -212,6 +221,29 @@
     width:10%;
     height:15%;
 }
+#div-modal-screen
+{
+    border:1px solid rgb(49, 4, 53);
+    width:60%;
+}
+#div-preview
+{
+    margin-top:2%;
+    
+}
+#img-preview
+{
+    width:12%;
+    height:14%;
+}
+h3
+{
+    font-size: 10%;
+    cursor: pointer;
 
-
+}
+h3:hover
+{
+    color: rgb(24, 129, 24);
+}
 

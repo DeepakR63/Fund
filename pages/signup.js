@@ -1,6 +1,15 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import HeadBanner from '../component/head';
+import { toast, ToastContainer } from 'react-toastify';
+import { messageBox } from '../component/messagebox';
+import { validEmail } from '../component/validation';
+import { validPassword } from '../component/validation';
+import { validPhone } from '../component/validation';
+import { comparePassword } from '../component/validation';
+import { validFundraiserType } from '../component/validation';
+import { validOrganization } from '../component/validation';
+import { postCall } from '../component/api';
 
 class SignUp extends Component
 {
@@ -25,59 +34,111 @@ class SignUp extends Component
         this.phoneChange=this.phoneChange.bind(this);
     }
 
+    validateEntries()
+    {
+        var _IsValid=true;
+
+        if(!validEmail(this.state.email))
+        {
+            messageBox('Please enter valid email.');
+            _IsValid=false;
+        }
+        else if(!validPassword(this.state.password))
+        {
+            messageBox('Password should contain an uppercase, a lowercase, a special character and the length is minimum of 6.');
+            _IsValid=false;
+        }
+        else if(!comparePassword(this.state.password,this.state.confirm_password))
+        {
+            messageBox('Confirm Password does not match.');
+            _IsValid=false;
+        }
+        else if(!validPhone(this.state.phone))
+        {
+            messageBox('Invalid Phone');
+            _IsValid=false;
+        }
+        else if(!validFundraiserType(this.state.fundraiser_type))
+        {
+            messageBox('Invalid Fundraiser Type.');
+            _IsValid=false;
+        }
+        else if(!validOrganization(this.state.organization_name))
+        {
+            messageBox('Invalid Organization Name.');
+            _IsValid=false;
+        }
+
+        return _IsValid;
+    }
+
+    gotoHome()
+    {
+        this.props.history.push('/');
+    }
+
+    doSignUp(event)
+    {
+        if(this.validateEntries())
+        {
+            var _url = "fundraisers/";
+
+            postCall(_url, this.state)
+            .then((response) => {
+                console.log(response);
+                if(response.status == 200)
+                {
+                    console.log("Registration successfull");
+                    messageBox("Registration successfull");
+                    this.gotoHome();
+                    
+                }
+                else
+                {
+                    console.log("Failed. try again.");
+                    messageBox("Failed. try again.");
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+                messageBox("Failed. try again.");
+            });
+        }
+    }
+
     emailChange(e) 
     {
-        this.setState({email: e.target.value});
+        this.setState( { email: e.target.value } );
     }
-      
+
     passwordChange(e) 
     {
-        this.setState({password: e.target.value});
+        this.setState( { password: e.target.value } );
     }
       
     confirmPasswordChange(e) 
     {
-        this.setState({confirm_password: e.target.value});
+        this.setState( { confirm_password: e.target.value } );
     }
       
     fundraiserTypeChange(e) 
     {
-        this.setState({fundraiser_type: e.target.value});
+        this.setState( { fundraiser_type: e.target.value } );
     }
       
     organizationNameChange(e) 
     {
-        this.setState({organization_name: e.target.value});
+        this.setState( { organization_name: e.target.value } );
     }
       
     phoneChange(e) 
-    {
-        this.setState({phone: e.target.value});
+    {   
+        this.setState( { phone: e.target.value } );    
     }
     
     handleClick(event)
     {
-        var apiBaseUrl = "http://52.41.54.41:3001/fundraisers/";
-
-        axios.post(apiBaseUrl, this.state)
-        .then((response) => {
-            console.log(response);
-            if(response.status == 200)
-            {
-                console.log("Registration successfull");
-                alert("Registration successfull");
-
-                this.props.history.push('/');
-            }
-            else
-            {
-                console.log("Failed. try again.");
-                alert("Failed. try again.");
-            }
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
+        this.doSignUp(event);
     }
 
     gotoLogin()
@@ -112,7 +173,7 @@ class SignUp extends Component
                     </div>
                     <div class="row form-group">
                          <div class="col-sm-12">
-                            <input type="text"  placeholder="phone" class="form-control" onChange = {this.phoneChange}/>
+                            <input type="text"  placeholder="phone" class="form-control" onChange = {this.phoneChange} maxLength="10"/>
                         </div>
                     </div>
 
@@ -137,6 +198,7 @@ class SignUp extends Component
                          <button class="btn btn-danger " id="btn-cancel" onClick={this.gotoLogin.bind(this)}> Cancel </button>
                         </div>
                     </div>
+                    <ToastContainer/>
                 </div>
             </div>
 

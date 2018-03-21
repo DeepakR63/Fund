@@ -1,43 +1,41 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { getCall, setAuthorization } from '../component/api';
 
 class Profile extends Component
 {
     constructor(props)
     {
         super(props);
-        
-        this.logindata=JSON.parse(localStorage.getItem('LoginData'));
-        this.getProfileDetails(); 
+        if(!(localStorage.getItem('Auth')===""))
+        {
+            this.logindata=JSON.parse(localStorage.getItem('UserData'));
+            this.getProfileDetails();  
+        }
+    }
+
+    setProfileData(response)
+    {
+        this.userdata=response.data;
+        localStorage.setItem('UserProfile', JSON.stringify(this.userdata));
+        console.log(this.userdata);
     }
 
     getProfileDetails()
     {
-        
-        var _auth=JSON.parse(localStorage.getItem('Auth'));
-        var _apibaseurl = "http://52.41.54.41:3001/fundraisers/"+parseInt(this.logindata.id);
-        axios.interceptors.request.use((config) => {
-            if( _auth ) {
-                config.headers['Auth'] = _auth;
-                return config;
-            }
-            else {
-                return config;
-            }
-        });
+        var _url = "fundraisers/"+parseInt(this.logindata);
+    
+        setAuthorization();
 
-
-        axios.get(_apibaseurl,{params : null})
+        getCall(_url,null)
         .then((response) =>
         {
             console.log(response);  
             if(response.status == 200)
             {
 
-                this.userdata=response.data;
-                localStorage.setItem('UserData', JSON.stringify(this.userdata));
-                console.log(this.userdata);
+                this.setProfileData(response);
 
             }
             else
@@ -55,6 +53,10 @@ class Profile extends Component
     
     render()
     {
+        if(localStorage.getItem("Auth")==="")
+        {
+             (this.props.history.push('/'));
+        }
         return(
             <div>
                 <ProfileDetails/>
@@ -70,7 +72,6 @@ class ProfileDetails extends Component
     {
         super(props);
     }
-    
 
     render()
     {
@@ -109,10 +110,10 @@ class About extends Component
     
     constructor(props)
     {
-        
-
         super(props);
-        this.userdata = JSON.parse(localStorage.getItem('UserData'));
+        this.state={
+            userdata:JSON.parse(localStorage.getItem('UserProfile'))
+        }
     }
 
     render()
@@ -123,23 +124,23 @@ class About extends Component
                     <div class="row">
                         <div class="col-sm-10">
                             <div id="div-profile-img">
-                                 <center> <img src="../img/usr.png" class="img-circle" id="img-usr"/> </center>
+                                 <center> <img src={this.state.userdata.profile_image_url} class="img-circle" id="img-usr"/> </center>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-10">
-                            <center> <span class="spn-about-name">{this.userdata.first_name}</span><span class="spn-about-name"> {this.userdata.last_name} </span> </center>
+                            <center> <span class="spn-about-name">{this.state.userdata.first_name}</span><span class="spn-about-name"> {this.state.userdata.last_name} </span> </center>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-10">
-                            <center> <span id="spn-profile-about" class="glyphicon glyphicon-envelope"> {this.userdata.email} </span></center>
+                            <center> <span id="spn-profile-about" class="glyphicon glyphicon-envelope"> {this.state.userdata.email} </span></center>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-10">
-                            <center> <span id="spn-profile-about" class="glyphicon glyphicon-phone">{this.userdata.phone} </span></center>
+                            <center> <span id="spn-profile-about" class="glyphicon glyphicon-phone">{this.state.userdata.phone} </span></center>
                         </div>
                     </div>
 
@@ -153,7 +154,7 @@ class Address extends Component
     constructor(props)
     {
         super(props);
-        this.userdata = JSON.parse(localStorage.getItem('UserData'));
+        this.userdata = JSON.parse(localStorage.getItem('UserProfile'));
     }
 
     render()
@@ -228,7 +229,7 @@ class Contact extends Component
     constructor(props)
     {
         super(props);
-        this.userdata = JSON.parse(localStorage.getItem('UserData'));
+        this.userdata = JSON.parse(localStorage.getItem('UserProfile'));
     }
 
     render()
@@ -238,7 +239,7 @@ class Contact extends Component
                     <div id="div-contact-container">
                         <div class="row">
                             <div class="col-sm-12">
-                                <span id="spn-profile-label"><a href={this.userdata.facebook_link}><img src="../img/fb.jpeg" class="img-circle" id="img-network"/></a> </span><span id="spn-profile-label"><a href={this.userdata.twitter_link}><img src="../img/twt.jpeg" class="img-circle" id="img-network"/></a> </span> <span id="spn-profile-label"><a href={this.userdata.google_link}><img src="../img/gle.png" class="img-circle" id="img-network"/> </a></span>
+                                <span id="spn-profile-label"><a href={'http://'+this.userdata.facebook_link}><img src="../img/fb.jpeg" class="img-circle" id="img-network"/></a> </span><span id="spn-profile-label"><a href={'http://'+this.userdata.twitter_link}><img src="../img/twt.jpeg" class="img-circle" id="img-network"/></a> </span> <span id="spn-profile-label"><a href={'http://'+this.userdata.google_link}><img src="../img/gle.png" class="img-circle" id="img-network"/> </a></span>
                             </div>
                         </div>
                     </div>
