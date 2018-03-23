@@ -5,9 +5,9 @@ import { toast, ToastContainer } from 'react-toastify';
 import { messageBox } from '../component/messagebox';
 import { validImage } from '../component/validation';
 import ReactCrop from 'react-image-crop';
-import { postCall, setAuthorization } from '../component/api';
+import { postCall, setAuthentication } from '../component/api';
 
-
+//Component for Uploading the image.
 class ImageUpload extends React.Component 
 {
     constructor(props) 
@@ -20,28 +20,15 @@ class ImageUpload extends React.Component
                         url:'',
                         crop:''
                     };
+
         this.uploadImage=this.uploadImage.bind(this);
-        this.onCropped = this._onCropped.bind(this);
     }
 
-    onChange(e)
-    {
-        this.setState({ crop:e,
-            
-         },
-         ()=>{
-            
-            console.log(e);
-             url:e
-         }
-        );
-    }
-
+    //Check the image is select
     validateEntries()
     {
         var _isValid=true;
 
-        
         if(!validImage(this.state.file))
         {
             messageBox("Please select the valid image.");
@@ -51,6 +38,7 @@ class ImageUpload extends React.Component
         return _isValid;
     }
 
+    //Set the url to the state.
     setURL(response)
     {
         this.setState(
@@ -59,6 +47,7 @@ class ImageUpload extends React.Component
         })
     }
 
+    //Upload the image and generate the url
     getURL()
     {
         if(this.validateEntries())
@@ -70,7 +59,7 @@ class ImageUpload extends React.Component
 
             var _url = "common/imageUpload";
 
-            setAuthorization();
+            setAuthentication();
         
 
             postCall(_url, data).then((response) => {
@@ -81,6 +70,7 @@ class ImageUpload extends React.Component
         }
     }
 
+    //Get the selected file details
     changeImage(e)
     {
         e.preventDefault();
@@ -90,20 +80,10 @@ class ImageUpload extends React.Component
                 ()=>{  this.getURL();
                 }
             
-        );
-        
+        );    
     }
 
-    _onCropped(e) {
-        this.setState(
-            {
-                file:e.target.files[0]},
-                ()=>{  this.getURL();
-                }
-            
-        );
-    }
-
+    //Set the url for updation
     uploadImage(e) {
       
         if(this.validateEntries())
@@ -124,7 +104,7 @@ class ImageUpload extends React.Component
 
     render()
     {
-      
+        //Check the component can activate or not.
         if(!this.props.show) 
         {
             return null;
@@ -132,6 +112,7 @@ class ImageUpload extends React.Component
 
         return (
             <div >
+                
                 <div class="modal-content" id="div-modal-screen">
                     <div class="modal-header"  id="div-profile-title">
                         <button type="button" class="close" data-dismiss="modal" onClick={this.props.onClose}>&times;</button>
@@ -141,25 +122,20 @@ class ImageUpload extends React.Component
                         <div className="previewComponent">
                             <form >
                                 <input className="fileInput" type="file" onChange={this.changeImage.bind(this)} />
-                            
                             </form>
                         </div>
                         <div id="div-preview">
-                          {/* <img src={this.state.url} id="img-preview"/> */}
-                          {/* <ReactImageCrop src={this.state.url}
-                            onCrop={this.onCropped}/> */}
-                            <ReactCrop src={this.state.url} crop={this.state.crop} onChange={this.onChange.bind(this)}/>
+                            <img src={this.state.url} id="img-preview"/>
                         </div>
                     </div>
                     <div class="modal-footer" id="div-profile-title">
                         <button class="btn btn-success " id="btn-login" onClick={this.uploadImage.bind(this)}> Upload </button>
                     </div>
                 </div>
+                
                 <ToastContainer/>
       
             </div>
-  
-        
         );
     }
     

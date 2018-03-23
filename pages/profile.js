@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { getCall, setAuthorization } from '../component/api';
+import { getCall, setAuthentication } from '../component/api';
 
+//Component for Profile details
 class Profile extends Component
 {
     constructor(props)
     {
         super(props);
+
         if(!(localStorage.getItem('Auth')===""))
         {
             this.logindata=JSON.parse(localStorage.getItem('UserData'));
@@ -15,6 +17,7 @@ class Profile extends Component
         }
     }
 
+    //Set profile details
     setProfileData(response)
     {
         this.userdata=response.data;
@@ -22,11 +25,12 @@ class Profile extends Component
         console.log(this.userdata);
     }
 
+    //Request for profile details to API
     getProfileDetails()
     {
         var _url = "fundraisers/"+parseInt(this.logindata);
     
-        setAuthorization();
+        setAuthentication();
 
         getCall(_url,null)
         .then((response) =>
@@ -53,10 +57,12 @@ class Profile extends Component
     
     render()
     {
+        //Check the authentication details are available or not.
         if(localStorage.getItem("Auth")==="")
         {
              (this.props.history.push('/'));
         }
+
         return(
             <div>
                 <ProfileDetails/>
@@ -66,6 +72,7 @@ class Profile extends Component
     }
 }
 
+//Basic Profile componets
 class ProfileDetails extends Component
 {
     constructor(props)
@@ -105,12 +112,14 @@ class ProfileDetails extends Component
     }
 }
 
+//Component for user Name,Phone,Dob
 class About extends Component
 {
     
     constructor(props)
     {
         super(props);
+
         this.state={
             userdata:JSON.parse(localStorage.getItem('UserProfile'))
         }
@@ -119,7 +128,6 @@ class About extends Component
     render()
     {
         return(
-            
                 <div id="div-body-about">
                     <div class="row">
                         <div class="col-sm-10">
@@ -149,6 +157,7 @@ class About extends Component
     }
 }
 
+//Component for user address
 class Address extends Component
 {
     constructor(props)
@@ -216,14 +225,13 @@ class Address extends Component
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    
-                    
+                    </div>   
                 </div>
         )
     }
 }
 
+//Component for user contact
 class Contact extends Component
 {
     constructor(props)
@@ -244,10 +252,8 @@ class Contact extends Component
                         </div>
                     </div>
                 </div>
-
         )
     }
 }
-
 
 export default Profile;

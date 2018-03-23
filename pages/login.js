@@ -7,7 +7,7 @@ import { messageBox } from '../component/messagebox';
 import { validEmail, validPassword } from '../component/validation';
 import { postCall } from '../component/api';
 
-
+//Component for Login
 class Login extends Component
 {
     constructor(props)
@@ -27,52 +27,58 @@ class Login extends Component
         
     }
 
-   validateEntries()
-   {
-       var _IsValid=true;
+    //Check the given entries are valid
+    validateEntries()
+    {
+        var _IsValid=true;
 
-       if(!validEmail(this.state.email))
-       {
+        if(!validEmail(this.state.email))
+        {
             messageBox("Invalid Email");
             _IsValid=false;
-       }
-       if(!validPassword(this.state.password))
-       {
+        }
+
+        if(!validPassword(this.state.password))
+        {
             messageBox("Invalid Password");
             _IsValid=false;
-       }
+        }
 
-       return _IsValid;
-   }
+        return _IsValid;
+    }
 
+   //Set the authentication details 
    setLoginDetails(response)
    {
         this.userId=response.data.user_data.id;
         this.auth=response.headers.auth;
         localStorage.setItem('UserData', JSON.stringify(this.userId));
         localStorage.setItem('Auth', JSON.stringify(this.auth));
+
         console.log("Login successfull");
+
         this.gotoProfile();
 
    }
 
-   gotoProfile()
-   {
-    this.props.history.push('/home/profile');
-   }
+   //Redirect to the profile component
+    gotoProfile()
+    {
+        this.props.history.push('/home/profile');
+    }
 
+    //Login Process
     doLogin(event)
     {
         if(this.validateEntries())
         {
-
-        
             var _url = "fundraisers/login";
 
             postCall(_url,this.state)
             .then((response) =>
             {
                 console.log(response);  
+
                 if(response.status == 200)
                 {
                     this.setLoginDetails(response);    
@@ -91,6 +97,7 @@ class Login extends Component
         }
     }
 
+    //Set the given details to the component state *******************
     usernameChange(e) 
     {
         this.setState({email: e.target.value});
@@ -100,12 +107,15 @@ class Login extends Component
     {
         this.setState({password: e.target.value});
     }
+    //*****************************************************************
 
+    //Redirect to Home page.
     gotoHome()
     {
         this.props.history.push('/home');
     }
     
+    //Call Login Process on button click
     handleClick(event)
     {
        this.doLogin(event);
@@ -146,14 +156,10 @@ class Login extends Component
                         </div>
                     </div>
                     <ToastContainer/>
-                </div>
-                
-            </div>
-               
-            )
-
-    }
-    
+                </div>    
+            </div>    
+        )
+    } 
 }
 
 export default Login;

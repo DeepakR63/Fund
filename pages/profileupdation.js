@@ -12,9 +12,11 @@ import { validOrganization } from '../component/validation';
 import { validCity} from '../component/validation';
 import { validCountryCode } from '../component/validation';
 import { validZIP } from '../component/validation';
-import { putCall, setAuthorization } from '../component/api';
+import { putCall, setAuthentication } from '../component/api';
 import { stringToDate } from '../component/conversion';
+import dateFormat from 'dateformat';
 
+//Locally keeps the updating profile data
 var editabledata={
     first_name:'',
     last_name:'',
@@ -35,6 +37,7 @@ var editabledata={
     fundraiser_logo_url:''
 }
 
+//Component for profile updation
 class UpdateProfile extends Component
 {
     constructor(props)
@@ -88,6 +91,7 @@ class UpdateProfile extends Component
         return _IsValid;
     }
 
+    //Store the  url of uploaded image
     setImageDetails()
     {
         var profileimg=JSON.parse(localStorage.getItem('profile_image'));
@@ -103,20 +107,23 @@ class UpdateProfile extends Component
         }
     }
 
+    //Set the updated details to the controls and redirect to the profile page
     setUpdatedData(response)
     {
         var _data=response.data;
         localStorage.setItem('UserProfile',JSON.stringify(_data));
+
         this.props.history.push('/home/profile');
     }
 
+    //Request to the API for updation
     updateProfileData()
     {
         if(this.validateEntries())
         {
             var _url = "fundraisers/"+parseInt(this.logindata.id);
 
-            setAuthorization();
+            setAuthentication();
             this.setImageDetails();
 
             putCall(_url, editabledata)
@@ -125,9 +132,7 @@ class UpdateProfile extends Component
                 if(response.status == 200)
                 {
                     console.log("Updation successfull");
-                   // messageBox("Profile Updated");
                     this.setUpdatedData(response);
-                    
                 }
                 else
                 {
@@ -143,6 +148,7 @@ class UpdateProfile extends Component
 
     render()
     {
+        //Check the authentication details are available or not
         if(localStorage.getItem("Auth")==="")
         {
              (this.props.history.push('/'));
@@ -180,6 +186,8 @@ class UpdateProfile extends Component
         )
     }
 }
+
+//Component for Profile Basic detail updation
 class Basic extends Component
 {
     constructor(props)
@@ -200,8 +208,7 @@ class Basic extends Component
 
           editabledata.first_name=this.userdata.first_name;
           editabledata.last_name=this.userdata.last_name;
-          editabledata.dob=stringToDate(this.userdata.dob,'MM-DD-YYYY','-');
-          alert(editabledata.dob);
+          editabledata.dob=this.userdata.dob;
           editabledata.phone=this.userdata.phone;
           editabledata.email=this.userdata.email;
           editabledata.profile_image_url=this.userdata.profile_image_url;
@@ -214,18 +221,23 @@ class Basic extends Component
           this.phoneChange=this.phoneChange.bind(this);   
     }
      
-    toggleModal() {
+    //Toggle the ImageUpload component for profile image
+    toggleModal() 
+    {
         this.setState({
           isOpen: !this.state.isOpen
         });
-      }
+    }
     
-    toggleHidden () {
+    //Toggle the Basic details
+    toggleHidden () 
+    {
         this.setState({
           isHidden: !this.state.isHidden
         })
-      }
+    }
 
+    //**** Set the state details on changing the control values *****
     firstnameChange(e)
     {
         this.setState( { firstname: e.target.value },
@@ -235,8 +247,7 @@ class Basic extends Component
     lastnameChange(e)
     {
         this.setState( { lastname: e.target.value },
-        ()=>{ editabledata.last_name=this.state.lastname; } );
-        
+        ()=>{ editabledata.last_name=this.state.lastname; } );   
     }
 
     dobChange(e)
@@ -251,7 +262,7 @@ class Basic extends Component
         this.setState({phone: e.target.value},
         ()=>{ editabledata.phone=this.state.phone; } );
     }
-
+    //******************************************************************
     render()
     {
         return(
@@ -291,6 +302,7 @@ class Basic extends Component
     }
 }
 
+//Component for Profile communication updation
 class Communication extends Component
 {
     constructor(props)
@@ -323,16 +335,19 @@ class Communication extends Component
           this.zipChange=this.zipChange.bind(this);  
     }
 
-    toggleHidden () {
+    //Toggle the communication detail
+    toggleHidden () 
+    {
         this.setState({
           isHidden: !this.state.isHidden
         })
     }
+
+    //************ Set the state details  on changing the control values***
     streetChange(e)
     {
         this.setState({street: e.target.value},
-        ()=>{  editabledata.street=this.state.street; } );
-        
+        ()=>{  editabledata.street=this.state.street; } );    
     }
 
     cityChange(e)
@@ -358,6 +373,7 @@ class Communication extends Component
         this.setState({zip: e.target.value},
         ()=>{ editabledata.zip=this.state.zip; } ); 
     }
+    //************************************************************************
 
     render()
     {
@@ -403,6 +419,7 @@ class Communication extends Component
     }
 }
 
+//Component for Profile fundraiser updation
 class Fundraiser extends Component
 {
     constructor(props)
@@ -428,18 +445,23 @@ class Fundraiser extends Component
         this.organizationChange=this.organizationChange.bind(this);
     }
 
-    toggleModal() {
+    //Toggle the ImageUpload component for fundraiser logo
+    toggleModal() 
+    {
         this.setState({
           isOpen: !this.state.isOpen
         });
     }
 
-    toggleHidden () {
+    //Toggle the Fundraiser details
+    toggleHidden () 
+    {
         this.setState({
           isHidden: !this.state.isHidden
         })
     }
 
+    //********** Set the state details on the changing of the control value 
     typeChange(e)
     {
         this.setState({type: e.target.value},
@@ -449,9 +471,9 @@ class Fundraiser extends Component
     organizationChange(e)
     {
         this.setState({organization: e.target.value},
-        ()=>{ editabledata.organization_name=this.state.organization; } );
-         
+        ()=>{ editabledata.organization_name=this.state.organization; } );    
     }
+    //***********************************************************************
 
     render()
     {
@@ -478,9 +500,9 @@ class Fundraiser extends Component
 
                     </div>
                     <div class="col-sm-6">
-                            <center><span> <img src={this.userdata.fundraiser_logo_url} ref={img => this.img = img} onError={ () => this.img.src = '../img/dob.jpeg'} class="img-circle" id="img-fundraiser-logo-update" onClick={this.toggleModal.bind(this)} data-toggle="tooltip" title="Change Logo" data-placement="center"/></span> <ImageUpload show={this.state.isOpen} imagetype="fundraiserLogo" userid={this.userdata.id} onClose={this.toggleModal.bind(this)} >
-          Here's some content for the modal
-        </ImageUpload></center>
+                        <center><span> <img src={this.userdata.fundraiser_logo_url} ref={img => this.img = img} onError={ () => this.img.src = '../img/dob.jpeg'} class="img-circle" id="img-fundraiser-logo-update" onClick={this.toggleModal.bind(this)} data-toggle="tooltip" title="Change Logo" data-placement="center"/></span> <ImageUpload show={this.state.isOpen} imagetype="fundraiserLogo" userid={this.userdata.id} onClose={this.toggleModal.bind(this)} >
+                            </ImageUpload>
+                        </center>
                     </div>
                 </div>
                 </span>}
@@ -489,6 +511,7 @@ class Fundraiser extends Component
     }
 }
 
+//Component for Profile Connectivity updation
 class Connectivity extends Component
 {
     constructor(props)
@@ -515,12 +538,15 @@ class Connectivity extends Component
         this.fbChange=this.fbChange.bind(this);
     }
 
-    toggleHidden () {
+    //Toggle the connectivity details 
+    toggleHidden () 
+    {
         this.setState({
           isHidden: !this.state.isHidden
         })
     }
 
+    //*********** Set the state on changes the control value
     googleChange(e)
     {
         this.setState({google: e.target.value},
@@ -538,6 +564,7 @@ class Connectivity extends Component
         this.setState({fb: e.target.value},
         ()=>{ editabledata.facebook_link=this.state.fb; } );
     }
+    //********************************************************
 
     render()
     {
@@ -573,4 +600,5 @@ class Connectivity extends Component
         )
     }
 }
+
 export default UpdateProfile;

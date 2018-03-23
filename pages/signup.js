@@ -11,11 +11,13 @@ import { validFundraiserType } from '../component/validation';
 import { validOrganization } from '../component/validation';
 import { postCall } from '../component/api';
 
+//Component for Sign Up
 class SignUp extends Component
 {
     constructor(props)
     {
         super(props);
+
         this.state={
             email:'',
             password:'',
@@ -34,6 +36,7 @@ class SignUp extends Component
         this.phoneChange=this.phoneChange.bind(this);
     }
 
+    //Validate the data given to the controls
     validateEntries()
     {
         var _IsValid=true;
@@ -72,11 +75,7 @@ class SignUp extends Component
         return _IsValid;
     }
 
-    gotoHome()
-    {
-        this.props.history.push('/');
-    }
-
+    //API request for sign up,After successful sign up redirect to the login page
     doSignUp(event)
     {
         if(this.validateEntries())
@@ -86,12 +85,13 @@ class SignUp extends Component
             postCall(_url, this.state)
             .then((response) => {
                 console.log(response);
+
                 if(response.status == 200)
                 {
                     console.log("Registration successfull");
                     messageBox("Registration successfull");
-                    this.gotoHome();
-                    
+
+                    this.gotoLogin();     
                 }
                 else
                 {
@@ -106,6 +106,7 @@ class SignUp extends Component
         }
     }
 
+    //*********** Set the state on the change of control values********
     emailChange(e) 
     {
         this.setState( { email: e.target.value } );
@@ -135,12 +136,15 @@ class SignUp extends Component
     {   
         this.setState( { phone: e.target.value } );    
     }
+    //********************************************************************
     
+    //Call signUp on submit button click
     handleClick(event)
     {
         this.doSignUp(event);
     }
 
+    //Redirect to the login page
     gotoLogin()
     {
         this.props.history.push('/');
@@ -205,4 +209,5 @@ class SignUp extends Component
         )
     }
 }
+
 export default  SignUp;

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 
-class HeadBanner extends Component{
-
-    render(){
+//Login header
+class HeadBanner extends Component
+{
+    render()
+    {
         return(
             <div >
                 <nav class="navbar navbar-inverse" id="nav-banner">

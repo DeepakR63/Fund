@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import HomeBanner from '../component/homenavbar';
 
-
+//Home page
 class Home extends Component
 {
 	constructor(props)
@@ -9,15 +9,15 @@ class Home extends Component
 		super(props);
 		
 	}
+
 	render()
 	{
 		return(
-			<div>
-				
-				<HomeBanner details={this}/>
-				
+			<div>	
+				<HomeBanner details={this}/>	
 			</div>
 		)
 	}
 }
+
 export default Home;

@@ -1,3 +1,5 @@
+
+
 #div-login
 {
     margin-left:30%;
@@ -10,10 +12,12 @@
     box-shadow: 3px 3px 2px rgb(184, 185, 187);
     margin-bottom: 2%;
 }
+
 #btn-login
 {
     float: right;
 }
+
 #div-login-title
 {
     text-align: center;
@@ -24,6 +28,7 @@
     background-color: rgb(191, 191, 194);
     padding-top:0.5%;
 }
+
 #spn-login-title
 {
     color: white;
@@ -32,6 +37,7 @@
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     text-align: center;
 }
+
 #div-signup-title
 {
     text-align: center;
@@ -42,6 +48,7 @@
     background-color: rgb(191, 191, 194);
     padding-top:0.5%;
 }
+
 #spn-signup-title
 {
     color: white;
@@ -50,6 +57,7 @@
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     text-align: center;
 }
+
 #div-signup-body
 {
     margin-left:30%;
@@ -75,12 +83,14 @@
     height:100px;
     
 }
+
 #div-profile-img
 {
     padding-bottom: 1%;
     padding-top:1%;
     padding-left:1%;
 }
+
 #div-profile
 {
     margin-top:2%;
@@ -92,6 +102,7 @@
     padding:2% 2% 2% 2%;
     
 }
+
 #h3-nav-head
 {
     font-family: monospace;
@@ -101,20 +112,24 @@
     color: white;
 
 }
+
 .p-label
 {
     font-size:105%;
     padding-right:2%;
     
 }
+
 #div-id
 {
     color: rgb(102, 4, 102);
 }
+
 #spn-icon-usr
 {
     border:2px solid gray;
 }
+
 
 #img-network
 {
@@ -122,6 +137,7 @@
     height:6%;
     padding-right: 1%;
 }
+
 .spn-about-name
 {
     font-size: 100%;
@@ -129,10 +145,12 @@
     font-weight: bolder;
     font-family:'Lucida Sans';
 }
+
 #spn-profile-about
 {
     color: rgb(95, 6, 65);
 }
+
 #div-body-about
 {
     border:1px solid rgb(229, 203, 229);
@@ -147,6 +165,7 @@
     width:70%;
     margin-left:25%;
 }
+
 #div-profile-title
 {
     background-color: rgb(191, 191, 194);
@@ -155,6 +174,7 @@
     padding-top: 1%;
     padding-bottom: 1%;
 }
+
 #spn-profile-title
 {
     color: white;
@@ -163,6 +183,7 @@
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     text-align: center;
 }
+
 #div-profile-contact
 {
     background-color: rgb(191, 191, 194);
@@ -172,15 +193,18 @@
     padding-bottom: 1%;
     margin-top: 4%;
 }
+
 #img-dob
 {
     width:5%;
     height:7%;
 }
+
 #div-body-address
 {
     margin-top:5%;
 }
+
 #img-edit
 {
     width:5%;
@@ -191,11 +215,13 @@
     cursor: pointer;
     
 }
+
 #img-profile-update
 {
     width:10%;
     height:13%;
 }
+
 #img-update
 {
     width:30%;
@@ -205,43 +231,51 @@
     cursor: pointer;
 
 }
+
 #div-img-update
 {
     position: fixed;
     margin-left:80%;
 }
+
 #img-profile-update
 {
     width:10%;
     height:15%;
 }
+
 #img-fundraiser-logo-update
 {
     margin-top:6%;
     width:10%;
     height:15%;
 }
+
 #div-modal-screen
 {
     border:1px solid rgb(49, 4, 53);
     width:60%;
 }
+
 #div-preview
 {
     margin-top:2%;
     
 }
+
 #img-preview
 {
     width:12%;
     height:14%;
 }
+
 h3
 {
     font-size: 10%;
     cursor: pointer;
 
 }
+
 h3:hover
 {
     color: rgb(24, 129, 24);

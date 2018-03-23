@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Login from './pages/login';
 import SignUp from './pages/signup'
 import Home from './pages/home';
 import Profile from './pages/profile';
 import UpdateProfile from './pages/profileupdation';
 
-export default class App extends Component {
-	render() {
+//Main component with route details
+export default class App extends Component 
+{
+	render() 
+	{
 		return(
-			<MuiThemeProvider>
 				<BrowserRouter>
 					<div>
 						<Route
@@ -19,7 +20,7 @@ export default class App extends Component {
 							path="/"
 							component={ Login }
 						/>
-						 <Route
+						<Route
                            
 							path="/signup"
 							component={ SignUp }
@@ -38,10 +39,9 @@ export default class App extends Component {
                             path="/home/profileupdation"
                             component={ UpdateProfile }
                         />
-
+						
 					</div>
 				</BrowserRouter>
-				</MuiThemeProvider>
 		)
 	}
 }

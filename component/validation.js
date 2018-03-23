@@ -1,5 +1,6 @@
 import validator from 'validator';
 
+//Validate Email
 export function validEmail(email)
 {
     var _IsValid=true;
@@ -12,6 +13,7 @@ export function validEmail(email)
      return _IsValid;
 }
 
+//Validate Password
 export function validPassword(password)
 {
     var _IsValid=true;
@@ -25,6 +27,7 @@ export function validPassword(password)
     return _IsValid;
 }
 
+//Validate Phone
 export function validPhone(phone)
 {
     var _IsValid=true;
@@ -38,6 +41,7 @@ export function validPhone(phone)
     return _IsValid;
 }
 
+//Compare passoword and Confirm password are same
 export function comparePassword(password,confirmpassword)
 {
     var _IsValid=true;
@@ -50,6 +54,7 @@ export function comparePassword(password,confirmpassword)
     return _IsValid;
 }
 
+//Validate Fundraiser Type
 export function validFundraiserType(type)
 {
     var _IsValid=true;
@@ -62,6 +67,7 @@ export function validFundraiserType(type)
      return _IsValid;
 }
 
+//Validate Organization Name
 export function validOrganization(organization)
 {
     var _IsValid=true;
@@ -74,6 +80,7 @@ export function validOrganization(organization)
      return _IsValid;
 }
 
+//Validate First Name
 export function validFirstName(firstname)
 {
     var _IsValid=true;
@@ -86,6 +93,7 @@ export function validFirstName(firstname)
      return _IsValid;
 }
 
+//Validate Last Name
 export function validLastName(lastname)
 {
     var _IsValid=true;
@@ -98,6 +106,7 @@ export function validLastName(lastname)
      return _IsValid;
 }
 
+//Validate street Name
 export function validStreet(street)
 {
     var _IsValid=true;
@@ -110,6 +119,7 @@ export function validStreet(street)
      return _IsValid;
 }
 
+//Validate City
 export function validCity(city)
 {
     var _IsValid=true;
@@ -122,6 +132,7 @@ export function validCity(city)
      return _IsValid;
 }
 
+//Validate Country Code
 export function validCountryCode(countrycode)
 {
     var _IsValid=true;
@@ -134,6 +145,7 @@ export function validCountryCode(countrycode)
      return _IsValid;
 }
 
+//Validate ZIP Code
 export function validZIP(zip)
 {
     var _IsValid=true;
@@ -146,6 +158,7 @@ export function validZIP(zip)
      return _IsValid;
 }
 
+//Validate Uploaded File
 export function validImage(file)
 {
     var _IsValid=true;

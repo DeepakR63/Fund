@@ -3,8 +3,6 @@ import axios from 'axios';
 
 const BASE_URL = 'http://52.41.54.41:3001/';
 
-
-
 export function getCall(url,params=null)
 {
 	return axios.get(BASE_URL+url,{params : params});
@@ -20,23 +18,25 @@ export function postCall(url,body)
 	return axios.post(BASE_URL+url,body);
 }
 
-export function setAuthorization()
+//Set the authentication details to the header part of the API request.
+export function setAuthentication()
 {
 	var _auth=JSON.parse(localStorage.getItem('Auth'));
 
 	return (
 		axios.interceptors.request.use((config) => {
 
-		if( _auth ) 
-		{
-			config.headers['Auth'] = _auth;
-			return config;
-		}
-		else 
-		{
-			return config;
-		}
-	}));
+			if( _auth ) 
+			{
+				config.headers['Auth'] = _auth;
+				return config;
+			}
+			else 
+			{
+				return config;
+			}
+		})
+	);
 }
 
 
